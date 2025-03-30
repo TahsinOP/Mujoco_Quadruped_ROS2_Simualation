@@ -1,0 +1,26 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/tahsin/colcon_ws/install/servo_msgs/include/**",
+        "/home/tahsin/colcon_ws/install/realsense_gazebo_plugin/include/**",
+        "/home/tahsin/colcon_ws/install/payload_service/include/**",
+        "/home/tahsin/colcon_ws/install/passing_service/include/**",
+        "/home/tahsin/colcon_ws/install/linkattacher_msgs/include/**",
+        "/home/tahsin/colcon_ws/install/ebot_docking/include/**",
+        "/opt/ros/humble/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
