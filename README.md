@@ -54,6 +54,7 @@ To run this setup:
 
 ```bash
 ros2 launch b2_description mujoco_rviz_combined_launch.py
+``` 
 
 ### 4. RViz-MuJoCo ROS 2 Bridge
 
