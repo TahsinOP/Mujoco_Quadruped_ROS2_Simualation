@@ -48,21 +48,17 @@ Key challenge: creating multiple markers one after another in an orderly manner.
 
 ## 3. MuJoCo Quadruped Setup
 
-This was a challenging part — went through various repositories for combining ROS 2 communication with MuJoCo and bridging it with RViz. Thanks to this [repo](https://github.com/deepdrive/deepdrive-sim) for giving a brief idea of how to spawn a model in MuJoCo from a model XML, extract joints, and publish TFs and `joint_states`, which RViz uses for real-time visualization.
+
+
+### 4. RViz-MuJoCo ROS 2 Bridge
+
+This was a challenging part — went through various repositories for combining ROS 2 communication with MuJoCo and bridging it with RViz. Thanks to this [repo]() for giving a brief idea of how to spawn a model in MuJoCo from a model XML, extract joints, and publish TFs and `joint_states`, which RViz uses for real-time visualization.
 
 To run this setup:
 
 ```bash
 ros2 launch b2_description mujoco_rviz_combined_launch.py
 ``` 
-
-### 4. RViz-MuJoCo ROS 2 Bridge
-
-A custom ROS 2 bridge node synchronizes joint positions and sensor data between MuJoCo and RViz. This allows RViz to reflect the robot's real-time state as simulated in MuJoCo.
-
-> ✅ A ROS 2 node bridges joint states and commands between MuJoCo and the visualization stack.
-
----
 
 ### 5. PD Control for Holding Quadruped Target Joint Position
 
