@@ -2,15 +2,13 @@
 
 ## Introduction
 
-This project focuses on developing a simulated quadruped robot (robot dog) in the **MuJoCo** physics engine, integrated with **ROS 2 Humble** for visualization and waypoint navigation. The goal is to build a system capable of:
+This task focuses on developing a simulated quadruped robot (robot dog) in the **MuJoCo** physics engine, integrated with **ROS 2 Humble** for visualization and waypoint navigation. The goal is to build a system capable of:
 
 - Navigating from **point A to point B** using waypoints selected from **RViz**
 - Detecting obstacles in the environment
 - (Advanced) Performing **dynamic jumping** maneuvers onto and off a box
 
-This simulation tests our understanding of **robot kinematics**, **perception**, **motion planning**, and **control** in a physics-based simulation environment.
-
-The project uses an **open-source quadruped robot model** (e.g., MIT Mini Cheetah or Stanford Doggo), with the intent to implement a **trot gait**, inverse kinematics, and stable locomotion. The system is modular and extensible, allowing future extensions such as obstacle avoidance and jumping behavior.
+The project uses an **open-source quadruped robot model** (Unitree B2) to implement a **trot gait** based waypoint navigation, inverse kinematics, and stable locomotion. The system is modular and extensible, allowing future extensions such as obstacle avoidance and jumping behavior. The content is organized in shown below manner starting from model visualization in (RViz) and Mujuco, implementing a ROS2 Bridge to waypoint navigation 
 
 ---
 
@@ -28,29 +26,34 @@ The project uses an **open-source quadruped robot model** (e.g., MIT Mini Cheeta
 
 ---
 
-### 1. RViz Quadruped Visualization
+## 1. RViz Quadruped Visualization
 
-RViz is used to visualize the robot's pose, joint states, and trajectory within a simulated environment. The URDF of the quadruped robot is loaded into RViz, enabling real-time feedback during navigation.
+Unitree B2 model is chosen due to its well-defined description packages ([link](https://github.com/unitreerobotics/unitree_ros2)). The URDF is loaded in RViz by launching the `robot_state_publisher` node using the simple launch file `robot_display_launch.py`.
+
+The model’s initial position is a crouched stance as shown below.
 
 > ✅ The robot model loads correctly in RViz, showing joint frames and interactive visualization.
 
 ---
 
-### 2. Waypoint Generation using Interactive Markers
+## 2. Waypoint Generation using Interactive Markers
 
-Interactive markers in RViz allow the user to place navigation waypoints for the quadruped. These are published as `geometry_msgs::Pose` messages and subscribed by the navigation planner.
+Created a script `interactive_waypoint_publisher.py` that initiates a circular interactive marker server in RViz. On receiving feedback, it stores the waypoints `(x, y, z)` created by the user and publishes them to the `/waypoint` topic.
+
+Key challenge: creating multiple markers one after another in an orderly manner.
 
 > ✅ A simple interface to generate waypoints has been implemented and verified in RViz.
 
 ---
 
-### 3. MuJoCo Quadruped Setup
+## 3. MuJoCo Quadruped Setup
 
-MuJoCo is configured as the core physics simulator for the quadruped. The model (based on MIT Mini Cheetah or Stanford Doggo) includes all kinematic chains and joint constraints necessary for accurate simulation.
+This was a challenging part — went through various repositories for combining ROS 2 communication with MuJoCo and bridging it with RViz. Thanks to this [repo](https://github.com/deepdrive/deepdrive-sim) for giving a brief idea of how to spawn a model in MuJoCo from a model XML, extract joints, and publish TFs and `joint_states`, which RViz uses for real-time visualization.
 
-> ✅ The robot loads and simulates correctly in MuJoCo with controllable joints.
+To run this setup:
 
----
+```bash
+ros2 launch b2_description mujoco_rviz_combined_launch.py
 
 ### 4. RViz-MuJoCo ROS 2 Bridge
 
