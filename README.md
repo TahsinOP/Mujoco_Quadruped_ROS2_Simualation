@@ -88,20 +88,17 @@ For each waypoint or desired gait cycle, joint trajectories are generated and vi
 
 A basic trotting gait is implemented for the quadruped, alternating diagonal legs (LF-RH and RF-LH) in motion. Gait parameters such as duty cycle and phase offset are adjustable.
 
-> ✅ Initial trot gait is implemented and shows stable motion under simulation.
 
 ---
 
 ### 9. Waypoint Navigation
 
-The quadruped follows a sequence of waypoints published via RViz. The planner computes body trajectories and corresponding joint commands to move the robot from point A to point B.
-
-> ✅ The robot starts walking toward selected waypoints using the trot gait and joint trajectories.
+The quadruped follows a sequence of waypoints published via RViz. The planner computes body trajectories and corresponding joint commands to move the robot from point A to point B
 
 ---
 
 ## 📁 Repository Structure 
-## 🎥 Demonstration Video (Optional)
+## 🎥 Demonstration Video 
 
 ---
 
