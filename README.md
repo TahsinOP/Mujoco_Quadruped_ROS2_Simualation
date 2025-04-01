@@ -30,6 +30,12 @@ The project uses an **open-source quadruped robot model** (Unitree B2) to implem
 
 Unitree B2 model is chosen due to its well-defined description packages ([link](https://github.com/unitreerobotics/unitree_ros2)). The URDF is loaded in RViz by launching the `robot_state_publisher` node using the simple launch file `robot_display_launch.py`.
 
+To view the robot in RViz, run:
+
+```bash
+ros2 launch b2_description robot_display.launch.py
+```
+
 The model’s initial position is a crouched stance as shown below.
 
 > ✅ The robot model loads correctly in RViz, showing joint frames and interactive visualization.
@@ -40,6 +46,11 @@ The model’s initial position is a crouched stance as shown below.
 
 Created a script `interactive_waypoint_publisher.py` that initiates a circular interactive marker server in RViz. On receiving feedback, it stores the waypoints `(x, y, z)` created by the user and publishes them to the `/waypoint` topic.
 
+To start recording waypoints and publish them, run:
+```
+ros2 run b2_description interactive_waypoint_publisher.py
+```
+
 Key challenge: creating multiple markers one after another in an orderly manner.
 
 > ✅ A simple interface to generate waypoints has been implemented and verified in RViz.
@@ -48,7 +59,9 @@ Key challenge: creating multiple markers one after another in an orderly manner.
 
 ## 3. MuJoCo Quadruped Setup
 
+Used an XML file of the quadruped robot defined in the world, spawned it, started the simulation using the MuJoCo-Viewer Python binding, and gathered all the joint and actuator data.
 
+> ✅ The quadruped robot spawns correctly in MuJoCo with joint and actuator data accessible.
 
 ### 4. RViz-MuJoCo ROS 2 Bridge
 
@@ -98,6 +111,26 @@ The quadruped follows a sequence of waypoints published via RViz. The planner co
 ---
 
 ## 📁 Repository Structure 
+
+```
+📦 robot_dog_simulation
+ ┣ 📂 b2_description
+ ┃ ┣ 📜 CMakeLists.txt
+ ┃ ┣ 📜 package.xml
+ ┃ ┣ 📂 urdf
+ ┃ ┃ ┣ 📜 b2.urdf.xacro
+ ┃ ┣ 📂 launch
+ ┃ ┃ ┣ 📜 robot_display_launch.py
+ ┃ ┃ ┣ 📜 mujoco_rviz_combined_launch.py
+ ┃ ┣ 📂 scripts
+ ┃ ┃ ┣ 📜 interactive_waypoint_publisher.py
+ ┣ 📂 mujoco_sim
+ ┃ ┣ 📜 mujoco_viewer.py
+ ┃ ┣ 📜 simulation.xml
+ ┣ 📜 README.md
+ ┗ 📜 .gitignore
+```
+
 ## 🎥 Demonstration Video 
 
 ---
