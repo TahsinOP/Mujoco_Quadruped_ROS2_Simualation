@@ -9,7 +9,7 @@ class GaitTrajectorySubscriber(Node):
         super().__init__('gait_trajectory_subscriber')
         self.subscription = self.create_subscription(
             Float64MultiArray,
-            'LF_joint_trajectory',  # Change this to other legs if needed
+            'LR_joint_trajectory',  # Change this to other legs if needed
             self.listener_callback,
             10
         )
