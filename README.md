@@ -104,7 +104,7 @@ The quadruped follows a sequence of waypoints published via RViz. The planner co
 
 ## 🚧 Progress Summary
 
-- ✅ **70% of Part 1** completed (visualization, IK, and gait trajectory generation tested)
+- ✅ **70% of Part 1** completed (visualization, IK, gait trajectory generation, trotting gait completed --- waypoint navigation left)
 - 🔜 Next steps: Add obstacle detection (Part 2) and jumping maneuvers (Part 3)
 - 🛠️ Current challenge: Ensuring real-time stability and tuning gait parameters in MuJoCo
 
