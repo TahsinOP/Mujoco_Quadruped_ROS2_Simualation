@@ -63,11 +63,11 @@ Used an XML file of the quadruped robot defined in the world, spawned it, starte
 
 > ✅ The quadruped robot spawns correctly in MuJoCo with joint and actuator data accessible.
 
-### 4. RViz-MuJoCo ROS 2 Bridge
+## 4. RViz-MuJoCo ROS 2 Bridge
 
 This was a challenging part — went through various repositories for combining ROS 2 communication with MuJoCo and bridging it with RViz. Thanks to this [repo]() for giving a brief idea of how to extract joint and actuator data in Mujoco , publish `world` to `base` frame transforms (TFs) and `joint_states`, which RViz uses for real-time visualization.
 
-To run this setup:
+To spawn robot in Mujoco , load Rviz with panels configured run the below command 
 
 ```bash
 ros2 launch b2_description mujoco_rviz_combined_launch.py
