@@ -72,7 +72,7 @@ To run this setup:
 ```bash
 ros2 launch b2_description mujoco_rviz_combined_launch.py
 ```
- ✅ ROS2 communication bridge created between Mujoco and Rviz succesfully
+> ✅ ROS2 communication bridge created between Mujoco and Rviz succesfully
 
 ### 5. PD Control for Holding Quadruped Target Joint Position
 
