@@ -59,19 +59,20 @@ Key challenge: creating multiple markers one after another in an orderly manner.
 
 ## 3. MuJoCo Quadruped Setup
 
-Used an XML file of the quadruped robot defined in the world, spawned it, started the simulation using the MuJoCo-Viewer Python binding, and gathered all the joint and actuator data.
+Used an XML file of the quadruped robot defined in the world, spawned it, started the simulation using the MuJoCo-Viewer Python binding,published joint position , velocity and effort on the `/mujoco_joint_states` topic
 
 > ✅ The quadruped robot spawns correctly in MuJoCo with joint and actuator data accessible.
 
 ### 4. RViz-MuJoCo ROS 2 Bridge
 
-This was a challenging part — went through various repositories for combining ROS 2 communication with MuJoCo and bridging it with RViz. Thanks to this [repo]() for giving a brief idea of how to spawn a model in MuJoCo from a model XML, extract joints, and publish TFs and `joint_states`, which RViz uses for real-time visualization.
+This was a challenging part — went through various repositories for combining ROS 2 communication with MuJoCo and bridging it with RViz. Thanks to this [repo]() for giving a brief idea of how to extract joint and actuator data in Mujoco , publish `world` to `base` frame transforms (TFs) and `joint_states`, which RViz uses for real-time visualization.
 
 To run this setup:
 
 ```bash
 ros2 launch b2_description mujoco_rviz_combined_launch.py
-``` 
+```
+ ✅ ROS2 communication bridge created between Mujoco and Rviz succesfully
 
 ### 5. PD Control for Holding Quadruped Target Joint Position
 
