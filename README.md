@@ -240,7 +240,7 @@ The navigation process follows these interactive steps:
 
 ## 11. Progress Summary
 
-- ✅ **70% of Part 1** completed (visualization, IK, gait trajectory generation, trotting gait completed --- waypoint navigation left)
+- ✅ **Part 1** completed (visualization, IK, gait trajectory generation, trotting gait and waypoint navigation)
 - 🔜 Next steps: Add obstacle detection (Part 2) and jumping maneuvers (Part 3)
 - 🛠️ Current challenge: Ensuring real-time stability and tuning gait parameters in MuJoCo
 
