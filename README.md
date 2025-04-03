@@ -160,6 +160,7 @@ To visualize the trotting gait in the MuJoCo environment, run:
 ros2 launch b2_description mujoco_trott_launch.py
 ros2 run waypoint_navigation ik_2D.py
 ```
+[Screencast from 04-04-2025 01:46:26 AM.webm](https://github.com/user-attachments/assets/339adac7-eed5-46b5-8bdb-7ccec7413730)
 
 > ✅ Trot gait implementation with configurable parameters and bidirectional motion support.
 
