@@ -237,7 +237,7 @@ The navigation process follows these interactive steps:
 
 ---
 
-## 🚧 10. Progress Summary
+## 10. Progress Summary
 
 - ✅ **70% of Part 1** completed (visualization, IK, gait trajectory generation, trotting gait completed --- waypoint navigation left)
 - 🔜 Next steps: Add obstacle detection (Part 2) and jumping maneuvers (Part 3)
