@@ -81,7 +81,7 @@ This was a challenging part — went through various repositories for combining 
 To spawn the robot in Mujoco, load RViz with panels configured run the below command 
 
 ```bash
-ros2 launch b2_description mujoco_rviz_combined_launch.py
+ros2 launch b2_description mujoco_launch.py
 ```
 The output should look something like this 
 
@@ -89,9 +89,14 @@ The output should look something like this
 
 > ✅ ROS2 communication bridge created between Mujoco and RViz successfully
 
-### 5. PD Control for Holding Quadruped Target Joint Position
+## 5. PD Control for Holding Quadruped Target Joint Position
 
-A proportional-derivative (PD) controller is implemented to hold each leg joint at its desired angle. This control is crucial for achieving a stable stance and movement during walking. An exmaple can be seen below where robot is held at the home position using appropriate actuator torques 
+A proportional-derivative (PD) controller is implemented to hold each leg joint at its desired angle. This control is crucial for achieving a stable stance and movement during walking. An exmaple can be seen below where robot is held at the home position using appropriate actuator torques . 
+
+To view this run : 
+```
+ros2 launch b2_description Mujoco_rviz_combined_launch.py
+```
 
 ![image](https://github.com/user-attachments/assets/34ab8808-bd57-44f9-aca3-9a70f8a5bf86)
 
@@ -99,23 +104,32 @@ A proportional-derivative (PD) controller is implemented to hold each leg joint 
 
 ---
 
-### 6. IK Generation
+## 6. IK Generation
 
-Inverse Kinematics (IK) is implemented for each leg to compute joint angles given a desired foot position in 3D space. The IK solution ensures feasible leg configurations within joint limits.
+Inverse Kinematics (IK) is implemented for each leg to compute joint angles given a desired foot position in 3D space. The IK solution ensures feasible leg configurations within joint limits, in this part also few challenges were faced in understanding the axes conventions for measuring the `hip`, `thigh`, and `knee` angles. Tried two methods one implmenting a 3D IK solution considering the hip_angle also , this gave decent results but had some error in angle conventions which needs some changes , To test this, run the `ik_3D.py` script 
 
-> ✅ A geometric IK solver is implemented per leg, and tested for static poses.
+![image](https://github.com/user-attachments/assets/8faf2d45-6669-4dd9-bfb3-6dc77339541f)
+
+Another alternative implemented was a 2D IK solution considering the thigh and knee angles giving an accurate result , to run this use `ik_2D.py`
+
+
+
+> ✅ A geometric IK solver is implemented per leg which  for joint angle calculations used in trotting 
 
 ---
 
-### 7. Joint Trajectory Calculation and Visualization
+## 7. Joint Trajectory Calculation and Visualization
 
-For each waypoint or desired gait cycle, joint trajectories are generated and visualized in RViz. This forms the basis for smooth and continuous movement of the legs.
+Joint trajectories are generated and visualized in RViz for each waypoint or desired gait cycle. This forms the basis for smooth and continuous leg movement, all the points are then passed through the IK solver to get joint angles finaly published to individual foot topics . 
+
+![image](https://github.com/user-attachments/assets/cba2cb24-7cc4-4d54-be4d-16ce389c0a22)
+
 
 > ✅ Trajectory splines are generated and interpolated for joint-level control.
 
 ---
 
-### 8. Trot Gait
+## 8. Trot Gait
 
 A basic trotting gait is implemented for the quadruped, alternating diagonal legs (LF-RH and RF-LH) in motion. Gait parameters such as duty cycle and phase offset are adjustable.
 
