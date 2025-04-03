@@ -132,7 +132,7 @@ Joint trajectories are generated and visualized in RViz for each waypoint or des
 
 ---
 
-## 8. Trot Gait
+## 8. Trott Gait
 
 A basic trotting gait is implemented for the quadruped, alternating diagonal legs (LF-RH and RF-LH) in motion. The gait parameters are fully adjustable:
 
