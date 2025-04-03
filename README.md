@@ -27,8 +27,7 @@ The project uses an **open-source quadruped robot model** (Unitree B2) to implem
 ---
 
 ## 1. RViz Quadruped Visualization
-
-Unitree B2 model is chosen due to its well-defined description packages ([link](https://github.com/unitreerobotics/unitree_ros2)). The URDF is loaded in RViz by launching the `robot_state_publisher` node using the simple launch file `robot_display_launch.py`.
+The Unitree B2 model is chosen due to its well-defined description packages ([link](https://github.com/unitreerobotics/unitree_ros2)). The URDF is loaded in RViz by launching the `robot_state_publisher` node using the simple launch file `robot_display_launch.py`.
 
 To view the robot in RViz, run:
 
@@ -38,24 +37,28 @@ ros2 launch b2_description robot_display.launch.py
 
 The model’s initial position is a crouched stance as shown below.
 
-image.png
+![image](https://github.com/user-attachments/assets/0974367f-7df5-4734-b893-5c5281213fbf)
 
-> ✅ The robot model loads correctly in RViz, showing joint frames and interactive visualization.
+
+> ✅ The robot model in RViz, showing the robot model, transforms (TFs), and joint states.
 
 ---
 
 ## 2. Waypoint Generation using Interactive Markers
 
-Created a script `interactive_waypoint_publisher.py` that initiates a circular interactive marker server in RViz. On receiving feedback, it stores the waypoints `(x, y, z)` created by the user and publishes them to the `/waypoint` topic.
+Created a script `interactive_waypoint_publisher.py` that initiates a circular interactive marker server in RViz. On receiving feedback, it stores the waypoints (x, y, z) created by the user and publishes them to the `/waypoint` topic.
 
-To start recording waypoints and publish them, run:
+To start recording waypoints and publish the waypoints, first run the launch file command to load the URDF in RViz as mentioned in the above section, then run the script as shown below 
 ```
 ros2 run b2_description interactive_waypoint_publisher.py
 ```
+Drag the marker using the mouse according to the desired path and stop when completed; all the waypoints will be published 
+
+[Screencast from 04-03-2025 10:54:27 PM.webm](https://github.com/user-attachments/assets/1f1a5921-39fb-4b58-9f50-c1b1dad1fd67)
 
 Key challenge: creating multiple markers one after another in an orderly manner.
 
-> ✅ A simple interface to generate waypoints has been implemented and verified in RViz.
+> ✅ A simple interface to generate and store the waypoints has been implemented and verified in RViz.
 
 ---
 
