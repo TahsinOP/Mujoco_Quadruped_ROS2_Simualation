@@ -37,8 +37,8 @@ class GaitTrajectoryPublisher(Node):
         kin = Kinematics()
         
         num_points = 4 # Define number of trajectory points
-        step_length = 0.075  # Forward step length
-        step_height = 0.075 # Swing height
+        step_length = 0.05  # Forward step length
+        step_height = 0.075# Swing height
         phase_shift = 0.5  # Stance and swing phase offset
         
         # Generate swing trajectory for FL (Forward Left) leg
@@ -47,7 +47,7 @@ class GaitTrajectoryPublisher(Node):
             phase = i / (num_points - 1)
             if phase < phase_shift:
                 # Stance phase: Move leg backward (relative motion)
-                x_offset = -step_length * (phase / phase_shift)
+                x_offset = step_length * (phase / phase_shift)
                 z_offset = 0.0
             else:
                 # Swing phase: Move leg forward and lift

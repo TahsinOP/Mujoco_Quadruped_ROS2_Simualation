@@ -35,7 +35,7 @@ To view the robot in RViz, run:
 ros2 launch b2_description robot_display.launch.py
 ```
 
-The model’s initial position is a crouched stance as shown below.
+The model's initial position is a crouched stance as shown below.
 
 ![image](https://github.com/user-attachments/assets/0974367f-7df5-4734-b893-5c5281213fbf)
 
@@ -106,11 +106,12 @@ ros2 launch b2_description Mujoco_rviz_combined_launch.py
 
 ## 6. IK Generation
 
-Inverse Kinematics (IK) is implemented for each leg to compute joint angles given a desired foot position in 3D space. The IK solution ensures feasible leg configurations within joint limits, in this part also few challenges were faced in understanding the axes conventions for measuring the `hip`, `thigh`, and `knee` angles. Tried two methods one implmenting a 3D IK solution considering the hip_angle also , this gave decent results but had some error in angle conventions which needs some changes , To test this, run the `ik_3D.py` script 
+Inverse Kinematics (IK) is implemented for each leg to compute joint angles given a desired foot position in 3D space. The IK solution ensures feasible leg configurations within joint limits, in this part also few challenges were faced in understanding the axes conventions for measuring the `hip`, `thigh`, and `knee` angles. Tried two methods one implmenting a 3D IK solution considering the hip_angle also , this gave decent results but had some error in angle conventions which needs some changes , To test this, run the `ik_3D.py` script . 
 
 ![image](https://github.com/user-attachments/assets/8faf2d45-6669-4dd9-bfb3-6dc77339541f)
 
-Another alternative implemented was a 2D IK solution considering the thigh and knee angles giving an accurate result , to run this use `ik_2D.py`
+
+Another alternative implemented was a 2D IK solution considering the thigh and knee angles in a plane giving an accurate result , to run this use `ik_2D.py` script in the `waypoint_navigation` package.
 
 
 
@@ -120,7 +121,7 @@ Another alternative implemented was a 2D IK solution considering the thigh and k
 
 ## 7. Joint Trajectory Calculation and Visualization
 
-Joint trajectories are generated and visualized in RViz for each waypoint or desired gait cycle. This forms the basis for smooth and continuous leg movement, all the points are then passed through the IK solver to get joint angles finaly published to individual foot topics . 
+Joint trajectories are generated and visualized in RViz for each waypoint or desired gait cycle. This forms the basis for smooth and continuous leg movement, all the points are then passed through the IK solver to get joint angles finally published to individual foot topics in a systematic order .
 
 ![image](https://github.com/user-attachments/assets/cba2cb24-7cc4-4d54-be4d-16ce389c0a22)
 
@@ -131,14 +132,72 @@ Joint trajectories are generated and visualized in RViz for each waypoint or des
 
 ## 8. Trot Gait
 
-A basic trotting gait is implemented for the quadruped, alternating diagonal legs (LF-RH and RF-LH) in motion. Gait parameters such as duty cycle and phase offset are adjustable.
+A basic trotting gait is implemented for the quadruped, alternating diagonal legs (LF-RH and RF-LH) in motion. The gait parameters are fully adjustable:
 
+- **Phase Offset**: Diagonal leg pairs (FL-RR and FR-RL) are offset by 0.5 phase to maintain stability
+- **Stride Length**: Configurable step length (default 0.1m) for forward/backward motion
+- **Stride Height**: Adjustable foot clearance height (default 0.1m) during swing phase
+- **Cycle Time**: Complete gait cycle duration (default 1.0s)
+- **Number of Points**: Trajectory discretization points (configurable, typically 8-10 points per cycle)
+- **Gait Direction**: Configurable direction (forward/backward) with automatic trajectory adjustment
 
----
+The gait trajectories are calculated for both forward and backward motion and published to the following leg topics:
+- Forward motion: 
+  - `/FL_joint_trajectory_forward`
+  - `/FR_joint_trajectory_forward`
+  - `/RL_joint_trajectory_forward`
+  - `/RR_joint_trajectory_forward`
+- Backward motion:
+  - `/FL_joint_trajectory_backward`
+  - `/FR_joint_trajectory_backward`
+  - `/RL_joint_trajectory_backward`
+  - `/RR_joint_trajectory_backward`
 
-### 9. Waypoint Navigation
+To visualize the trotting gait in the MuJoCo environment, run:
+```bash
+ros2 launch b2_description mujoco_trott_launch.py
+ros2 run waypoint_navigation ik_2D.py
+```
 
-The quadruped follows a sequence of waypoints published via RViz. The planner computes body trajectories and corresponding joint commands to move the robot from point A to point B
+> ✅ Trot gait implementation with configurable parameters and bidirectional motion support.
+
+## 9. Waypoint Navigation
+
+The quadruped follows a sequence of waypoints published via RViz using spline interpolation and heading control. The navigation system:
+
+1. **Path Generation**:
+   - Waypoints are collected from RViz interactive markers
+   - A smooth path is generated using cubic spline interpolation between waypoints
+   - Path visualization is published for monitoring in RViz
+
+2. **Navigation Control**:
+   - Robot's current position is tracked using TF transforms
+   - Heading angle is calculated using IMU yaw data
+   - Target yaw is computed for each path segment
+   - Hip angles are adjusted based on yaw error for turning
+   - Distance threshold (0.1m) determines waypoint achievement
+
+3. **Control Flow**:
+   - Path following uses a state machine approach:
+     1. Stabilize at current position
+     2. Calculate target heading to next waypoint
+     3. Adjust hip angles for turning
+     4. Execute appropriate gait (forward/backward) to reach waypoint
+     5. Repeat until final waypoint is reached
+
+To run the waypoint navigation:
+```bash
+ros2 launch b2_description mujoco_trott_launch.py
+ros2 run waypoint_navigation waypoint_navigation.py
+```
+
+The navigation process follows these interactive steps:
+1. Press Enter to begin recording waypoints
+2. Create waypoints in RViz using interactive markers
+3. Press Enter again to complete waypoint generation
+4. Navigation automatically begins following the recorded waypoints
+
+> ✅ Complete waypoint navigation system with spline interpolation and heading control implemented.
 
 ---
 

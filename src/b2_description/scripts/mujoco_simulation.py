@@ -86,21 +86,21 @@ class MujocoSimulator(Node):
 
     def simulation_step(self):
 
-        for i in range(self.model.nu):  # Number of actuators
+        # for i in range(self.model.nu):  # Number of actuators
             
-            joint_id = self.model.actuator_trnid[i][0]  # First element gives joint ID
-            joint_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_JOINT, joint_id)
-            q_index = self.model.jnt_qposadr[joint_id]
-            v_index = self.model.jnt_dofadr[joint_id]
+        #     joint_id = self.model.actuator_trnid[i][0]  # First element gives joint ID
+        #     joint_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_JOINT, joint_id)
+        #     q_index = self.model.jnt_qposadr[joint_id]
+        #     v_index = self.model.jnt_dofadr[joint_id]
 
-            target_angle = self.target_joint_angles.get(joint_name, 0.0)
-            current_angle = self.data.qpos[q_index]
-            current_vel = self.data.qvel[v_index]
+        #     target_angle = self.target_joint_angles.get(joint_name, 0.0)
+        #     current_angle = self.data.qpos[q_index]
+        #     current_vel = self.data.qvel[v_index]
 
-            error = target_angle - current_angle
-            torque = self.kp * error - self.kd * current_vel
-            self.data.ctrl[i] = torque
-        # Step simulation
+        #     error = target_angle - current_angle
+        #     torque = self.kp * error - self.kd * current_vel
+        #     self.data.ctrl[i] = torque
+        # # Step simulation
         mujoco.mj_step(self.model, self.data)
 
         # Update viewer

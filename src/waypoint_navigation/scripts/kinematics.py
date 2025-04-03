@@ -356,10 +356,10 @@ if __name__ == "__main__":
     # Define desired foot positions for each leg
     # Format: [x, y, z] for each leg in meters
     foot_positions = [
-        [-0.2, 0.23, -0.31],  # Left front
-        [-0.29, 0.22, -0.51], # Left back
-        [-0.29, -0.22, -0.51],# Right back
-        [0.289, -0.23, -0.51]  # Right front
+        [0.29, 0.2, -0.51],  # Left front
+        [-0.29, 0.2, -0.51], # Left back
+        [-0.29, -0.2, -0.51],# Right back
+        [0.29, -0.2, -0.51]  # Right front
     ]
     
     joint_angles_all = []
