@@ -46,7 +46,7 @@ The model’s initial position is a crouched stance as shown below.
 
 ## 2. Waypoint Generation using Interactive Markers
 
-Created a script `interactive_waypoint_publisher.py` that initiates a circular interactive marker server in RViz. On receiving feedback, it stores the waypoints (x, y, z) created by the user and publishes them to the `/waypoint` topic.
+Created a script `interactive_waypoint_publisher.py` that initiates a circular interactive marker server in RViz. On receiving feedback, it stores the waypoints (x, y) created by the user and publishes them to the `/waypoint` topic.
 
 To start recording waypoints and publish the waypoints, first run the launch file command to load the URDF in RViz as mentioned in the above section, then run the script as shown below 
 ```
@@ -64,7 +64,10 @@ Key challenge: creating multiple markers one after another in an orderly manner.
 
 ## 3. MuJoCo Quadruped Setup
 
-Used an XML file of the quadruped robot defined in the world, spawned it, started the simulation using the MuJoCo-Viewer Python binding,published joint position , velocity and effort on the `/mujoco_joint_states` topic
+Using an XML file of the quadruped robot defined in a world, spawned it, started the simulation using the MuJoCo-Viewer Python binding, published joint position, velocity, and effort on the `/mujoco_joint_states` topic . To spawn the robot in Mujoco run this command
+```
+ros2 run b2_description mujuco_simulation.py
+```
 
 > ✅ The quadruped robot spawns correctly in MuJoCo with joint and actuator data accessible.
 
@@ -77,11 +80,11 @@ To spawn robot in Mujoco , load Rviz with panels configured run the below comman
 ```bash
 ros2 launch b2_description mujoco_rviz_combined_launch.py
 ```
-> ✅ ROS2 communication bridge created between Mujoco and Rviz succesfully
+> ✅ ROS2 communication bridge created between Mujoco and RViz successfully
 
 ### 5. PD Control for Holding Quadruped Target Joint Position
 
-A proportional-derivative (PD) controller is implemented to hold each leg joint at its desired angle. This control is crucial for achieving stable stance and movement during walking.
+A proportional-derivative (PD) controller is implemented to hold each leg joint at its desired angle. This control is crucial for achieving a stable stance and movement during walking.
 
 > ✅ PD controllers are tuned for joint stiffness and damping, holding poses accurately during testing.
 
