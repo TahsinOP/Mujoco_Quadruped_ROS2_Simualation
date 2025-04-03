@@ -248,5 +248,5 @@ Key Challenges: To implement stability while turning ( Still needs to be refined
 
 - ✅ **Part 1** completed (visualization, IK, gait trajectory generation, trotting gait and waypoint navigation)
 - 🔜 Next steps: Add obstacle detection (Part 2) and jumping maneuvers (Part 3)
-- 🛠️ Current challenge: Ensuring real-time stability and tuning gait parameters in MuJoCo
+- 🛠️ Current challenge: Ensuring stability during waypoint navigation especially during turning points 
 
