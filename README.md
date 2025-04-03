@@ -22,7 +22,8 @@ The project uses an **open-source quadruped robot model** (Unitree B2) to implem
 6. [IK Generation](#6-ik-generation)  
 7. [Joint Trajectory Calculation and Visualization](#7-joint-trajectory-calculation-and-visualization)  
 8. [Trot Gait](#8-trot-gait)  
-9. [Waypoint Navigation](#9-waypoint-navigation)  
+9. [Waypoint Navigation](#9-waypoint-navigation)
+10. [Progress_Summary](#10-progress-summary) 
 
 ---
 
@@ -234,11 +235,9 @@ The navigation process follows these interactive steps:
  ┃ ┃ ┗ 📜 package.xml
 ```
 
-## 🎥 Demonstration Video 
-
 ---
 
-## 🚧 Progress Summary
+## 🚧 10. Progress Summary
 
 - ✅ **70% of Part 1** completed (visualization, IK, gait trajectory generation, trotting gait completed --- waypoint navigation left)
 - 🔜 Next steps: Add obstacle detection (Part 2) and jumping maneuvers (Part 3)
