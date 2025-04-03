@@ -85,11 +85,15 @@ ros2 launch b2_description mujoco_rviz_combined_launch.py
 ```
 The output should look something like this 
 
+![image](https://github.com/user-attachments/assets/cc95a141-9d7e-41fd-81ac-a8b659692346)
+
 > ✅ ROS2 communication bridge created between Mujoco and RViz successfully
 
 ### 5. PD Control for Holding Quadruped Target Joint Position
 
-A proportional-derivative (PD) controller is implemented to hold each leg joint at its desired angle. This control is crucial for achieving a stable stance and movement during walking.
+A proportional-derivative (PD) controller is implemented to hold each leg joint at its desired angle. This control is crucial for achieving a stable stance and movement during walking. An exmaple can be seen below where robot is held at the home position using appropriate actuator torques 
+
+![image](https://github.com/user-attachments/assets/34ab8808-bd57-44f9-aca3-9a70f8a5bf86)
 
 > ✅ PD controllers are tuned for joint stiffness and damping, holding poses accurately during testing.
 
