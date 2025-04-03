@@ -199,6 +199,11 @@ The navigation process follows these interactive steps:
 3. Press Enter again to complete waypoint generation
 4. Navigation automatically begins following the recorded waypoints
 
+Key Challenges: To implement stability while turning ( Still needs to be refined using methods like ZMP )
+
+[Screencast from 04-04-2025 02:59:02 AM.webm](https://github.com/user-attachments/assets/13498c21-ea2f-4359-983a-379482981f69)
+
+
 > ✅ Complete waypoint navigation system with spline interpolation and heading control implemented.
 
 ---
