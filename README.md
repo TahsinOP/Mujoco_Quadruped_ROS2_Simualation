@@ -78,7 +78,7 @@ The simulation environment should look something like this
 
 ## 4. RViz-MuJoCo ROS 2 Bridge
 
-This was a challenging part — went through various repositories for combining ROS 2 communication with MuJoCo and bridging it with RViz. Thanks to this [repo]() for giving a brief idea of how to extract joint and actuator data in Mujoco , publish `world` to `base` frame transforms (TFs) and `joint_states`, which RViz uses for real-time visualization.
+This was a challenging part — went through various repositories for combining ROS 2 communication with MuJoCo and bridging it with RViz. Thanks to this [repo](https://github.com/YunhaoTsao10/Mujoco_rviz2_Integration/tree/main) for giving a brief idea of how to extract joint and actuator data in Mujoco , publish `world` to `base` frame transforms (TFs) and `joint_states`, which RViz uses for real-time visualization.
 
 To spawn the robot in Mujoco, load RViz with panels configured run the below command 
 
