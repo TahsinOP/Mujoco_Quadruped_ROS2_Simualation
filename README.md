@@ -171,7 +171,6 @@ The quadruped follows a sequence of waypoints published via RViz using spline in
    - Path visualization is published for monitoring in RViz
 
 2. **Navigation Control**:
-   - Robot's current position is tracked using TF transforms
    - Heading angle is calculated using IMU yaw data
    - Target yaw is computed for each path segment
    - Hip angles are adjusted based on yaw error for turning
@@ -182,8 +181,8 @@ The quadruped follows a sequence of waypoints published via RViz using spline in
      1. Stabilize at current position
      2. Calculate target heading to next waypoint
      3. Adjust hip angles for turning
-     4. Execute appropriate gait (forward/backward) to reach waypoint
-     5. Repeat until final waypoint is reached
+     4. Execute appropriate gait (forward/backward) to reach the waypoint
+     5. Repeat until the final waypoint is reached
 
 To run the waypoint navigation:
 ```bash
