@@ -46,9 +46,9 @@ class WaypointNavigator(Node):
         self.interpolated_path = []
         
         # Control parameters
-        self.distance_threshold = 0.1  # meters
-        self.angle_threshold = 0.1  # radians
-        self.max_hip_angle = 0.5  # maximum hip joint angle (radians)
+        self.distance_threshold = 0.12 # meters
+        self.angle_threshold = 0.12 # radians
+        self.max_hip_angle = 0.3 # maximum hip joint angle (radians)
         
         # State flags
         self.waypoint_generation_complete = False
@@ -173,26 +173,27 @@ class WaypointNavigator(Node):
     def calculate_hip_angles(self, yaw_error):
         """Calculate hip angles for turning based on yaw error"""
         turn_factor = np.clip(yaw_error / (math.pi/2), -1.0, 1.0)
+        self.get_logger().info(f'Turn factor: {turn_factor}')
         base_hip_angle = self.max_hip_angle * turn_factor
         
         return {
-            'FL': base_hip_angle,
+            'FL':-base_hip_angle,
             'FR': -base_hip_angle,
             'RL': base_hip_angle,
-            'RR': -base_hip_angle
+            'RR': base_hip_angle
         }
 
     def generate_leg_trajectory(self, hip_angle, leg_name):
         """Generate trajectory for a leg including turning motion"""
-        points = 8
+        points = 4
         trajectory = []
         phase_offset = math.pi if leg_name in ['FR', 'RL'] else 0.0
         
         for i in range(points):
             phase = (2 * math.pi * i / points) + phase_offset
             hip = hip_angle
-            thigh = 0.7 + 0.15 * math.sin(phase)
-            knee = -1.3 + 0.15 * math.sin(phase)
+            thigh = 0.71+ 0.18 * math.sin(phase)
+            knee = -1.33 + 0.14 * math.sin(phase)
             trajectory.append([hip, thigh, knee])
             
         return trajectory

@@ -275,7 +275,7 @@ class QuadrupedGaitController(Node):
             if current_error < self.error_threshold:
                 self.is_stable = True
                 self.stable_counter = 0
-                self.get_logger().info(f"Stable at gait point {self.current_gait_index} (error: {current_error:.4f})")
+                # self.get_logger().info(f"Stable at gait point {self.current_gait_index} (error: {current_error:.4f})")
     
     def move_to_next_gait_point(self):
         # Reset stability flags
@@ -286,7 +286,7 @@ class QuadrupedGaitController(Node):
         # num_points = self.points        
         # self.current_gait_index = (self.current_gait_index + 1) % num_points
         
-        self.get_logger().info(f"Moving to gait point {self.current_gait_index}")
+        # self.get_logger().info(f"Moving to gait point {self.current_gait_index}")
 
         self.execute_trajectory()
 

@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import numpy as np
 import rclpy
 from rclpy.node import Node
@@ -102,12 +103,12 @@ class TrotGaitGenerator(Node):
         self.leg_ik = LegIK(l1=0.32, l2=0.35)
         
         # Gait parameters
-        self.cycle_time = 1.0
+        self.cycle_time = 1.5
         self.stance_phase = 0.5
         self.home_x = 0.02
         self.home_y = 0.53
         self.stride_length = 0.1
-        self.stride_height = 0.1
+        self.stride_height = 0.11
         
         # Phase offsets for each leg (trot gait)
         self.phase_offsets = {

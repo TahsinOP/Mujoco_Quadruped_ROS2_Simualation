@@ -24,7 +24,12 @@ install(
   PROGRAMS
     scripts/waypoint_navigation.py
     scripts/gait_test.py
-    scripts/trotting_gait.py  # Replace with your actual script name(s)
+    scripts/trotting_gait.py 
+    scripts/ik_2D.py
+    scripts/ik_3D.py
+    scripts/kinematics.py
+    scripts/test.py
+     # Replace with your actual script name(s)
   DESTINATION lib/${PROJECT_NAME}
 )
 

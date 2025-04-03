@@ -157,7 +157,7 @@ The gait trajectories are calculated for both forward and backward motion and pu
 
 To visualize the trotting gait in the MuJoCo environment, run:
 ```bash
-ros2 launch b2_description mujoco_trott_launch.py
+ros2 launch b2_description Mujoco_rviz_combined_launch.py
 ros2 run waypoint_navigation ik_2D.py
 ```
 [Screencast from 04-04-2025 01:46:26 AM.webm](https://github.com/user-attachments/assets/339adac7-eed5-46b5-8bdb-7ccec7413730)
@@ -189,7 +189,7 @@ The quadruped follows a sequence of waypoints published via RViz using spline in
 
 To run the waypoint navigation:
 ```bash
-ros2 launch b2_description mujoco_trott_launch.py
+ros2 launch b2_description Mujoco_rviz_combined_launch.py
 ros2 run waypoint_navigation waypoint_navigation.py
 ```
 
