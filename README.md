@@ -23,7 +23,8 @@ The project uses an **open-source quadruped robot model** (Unitree B2) to implem
 7. [Joint Trajectory Calculation and Visualization](#7-joint-trajectory-calculation-and-visualization)  
 8. [Trot Gait](#8-trot-gait)  
 9. [Waypoint Navigation](#9-waypoint-navigation)
-10. [Progress Summary](#10-progress-summary) 
+10. [Repository Structure ](#10-repository-structure)
+11. [Progress Summary](#11-progress-summary)
 
 ---
 
@@ -201,7 +202,7 @@ The navigation process follows these interactive steps:
 
 ---
 
-## 📁 Repository Structure 
+## 10. Repository Structure 
 
 ```
 📦 Mujoco_Quadruped_ROS2_simulation
@@ -237,7 +238,7 @@ The navigation process follows these interactive steps:
 
 ---
 
-## 10. Progress Summary
+## 11. Progress Summary
 
 - ✅ **70% of Part 1** completed (visualization, IK, gait trajectory generation, trotting gait completed --- waypoint navigation left)
 - 🔜 Next steps: Add obstacle detection (Part 2) and jumping maneuvers (Part 3)
