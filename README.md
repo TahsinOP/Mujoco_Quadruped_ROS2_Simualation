@@ -203,7 +203,7 @@ The navigation process follows these interactive steps:
 ## 📁 Repository Structure 
 
 ```
-📦 robot_dog_simulation
+📦 Mujoco_Quadruped_ROS2_simulation
  ┣ 📂 src
  ┃ ┣ 📂 b2_description
  ┃ ┃ ┣ 📂 config
@@ -232,9 +232,7 @@ The navigation process follows these interactive steps:
  ┃ ┃ ┃ ┗ 📜 waypoint_navigation.py
  ┃ ┃ ┣ 📜 CMakeLists.txt
  ┃ ┃ ┗ 📜 package.xml
- ┣ 📂 .vscode
- ┣ 📂 log
- ┗ 📜 REA
+```
 
 ## 🎥 Demonstration Video 
 
