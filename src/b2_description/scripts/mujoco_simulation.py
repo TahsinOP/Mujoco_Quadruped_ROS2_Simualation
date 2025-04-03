@@ -23,7 +23,7 @@ class MujocoSimulator(Node):
             package_share_dir = get_package_share_directory('b2_description')
             model_path = os.path.join(package_share_dir, 'xml', 'scene.xml')
         except Exception as e:
-            self.get_logger().error(f"Failed to locate package or XML: {e}")
+            self.get_logger().error(f"Failed to locate package or XM-L: {e}")
             return
         
         self.model = mujoco.MjModel.from_xml_path(model_path)
@@ -31,9 +31,9 @@ class MujocoSimulator(Node):
 
         # Set joint angles for each leg
         self.target_joint_angles = {
-            "FL_hip_joint": -0.0,
+            "FL_hip_joint": 0.0,
             "FL_thigh_joint": 0.7,
-            "FL_calf_joint": -0.8,
+            "FL_calf_joint": -1.2,
             "FR_hip_joint": 0.0,
             "FR_thigh_joint": 0.7,
             "FR_calf_joint": -1.2,
@@ -99,7 +99,6 @@ class MujocoSimulator(Node):
 
             error = target_angle - current_angle
             torque = self.kp * error - self.kd * current_vel
-            print(torque)
             self.data.ctrl[i] = torque
         # Step simulation
         mujoco.mj_step(self.model, self.data)

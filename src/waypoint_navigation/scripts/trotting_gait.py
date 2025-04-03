@@ -2,15 +2,16 @@
 import rclpy
 from std_msgs.msg import String, Float64MultiArray
 from rclpy.node import Node
-from sensor_msgs.msg import JointState
+from sensor_msgs.msg import JointState, Imu
 from std_msgs.msg import String
 from tf2_ros import TransformBroadcaster
-from geometry_msgs.msg import TransformStamped
+from geometry_msgs.msg import TransformStamped, Vector3
 import mujoco
 import mujoco.viewer
 import numpy as np
 import os
 from ament_index_python.packages import get_package_share_directory
+
 
 class QuadrupedGaitController(Node):
     def __init__(self):
@@ -40,26 +41,23 @@ class QuadrupedGaitController(Node):
             "RR_hip_joint": 0.0, "RR_thigh_joint": 0.7, "RR_calf_joint": -1.3
         }
 
-        self.create_subscription(
-            Float64MultiArray, 'FL_joint_trajectory_forward',
-            lambda msg: self.trajectory_callback(msg, 'FL'), 10)
-        self.create_subscription(
-            Float64MultiArray, 'FR_joint_trajectory_forward',
-            lambda msg: self.trajectory_callback(msg, 'FR'), 10)
-        self.create_subscription(
-            Float64MultiArray, 'RL_joint_trajectory_forward',
-            lambda msg: self.trajectory_callback(msg, 'RL'), 10)
-        self.create_subscription(
-            Float64MultiArray, 'RR_joint_trajectory_forward',
-            lambda msg: self.trajectory_callback(msg, 'RR'), 10)
+        # Direction control (forward/backward)
+        self.direction = "forward"  # default direction
+        self.create_subscription(String, 'gait_direction', self.direction_callback, 10)
+        
+        # Dictionary to store subscribers
+        self.subscribers = {}
+        
+        # Initialize subscribers for forward direction
+        self.setup_direction_subscribers(self.direction)
         
         # Set initial target positions to home
         self.target_positions = self.home_positions.copy()
         
         # Improved control parameters for faster movement
-        self.kp = 450.0  # Position gain - increased for faster response
-        self.kd = 40.0   # Damping gain - increased for stability
-        self.error_threshold = 0.2  # Radians - slightly increased for faster transitions
+        self.kp = 600.0  # Position gain - increased for faster response
+        self.kd = 50.0   # Damping gain - increased for stability
+        self.error_threshold = 0.2 # Radians - slightly increased for faster transitions
            
         self.leg_trajectories = {
             'FL': [], 'FR': [], 'RL': [], 'RR': []
@@ -71,7 +69,7 @@ class QuadrupedGaitController(Node):
         self.current_gait_index = 0
         self.is_stable = False
         self.stable_counter = 0
-        self.steps_to_wait = int(0.01 / self.model.opt.timestep)  # Reduced wait time (0.1 seconds)
+        self.steps_to_wait = int(0.05 / self.model.opt.timestep)  # Reduced wait time (0.1 seconds)
         
         # Initial robot position
         self.data.qpos[0:3] = [0, 0, 0.65]  # x, y, z position
@@ -85,13 +83,12 @@ class QuadrupedGaitController(Node):
         # self.define_gait_patterns()
         self.points = 11
         
-        # Direction control (forward/backward)
-        self.direction = "forward"
-        self.create_subscription(String, 'gait_direction', self.direction_callback, 10)
-        
         # Publishers
         self.joint_pub = self.create_publisher(JointState, 'mujoco_joint_states', 10)
         self.tf_broadcaster = TransformBroadcaster(self)
+        
+        # Add IMU publisher
+        self.imu_pub = self.create_publisher(Imu, 'trunk_imu', 10)
         
         # Launch viewer and simulation timer
         self.viewer = mujoco.viewer.launch_passive(self.model, self.data)
@@ -103,12 +100,50 @@ class QuadrupedGaitController(Node):
         
         self.get_logger().info(f"Quadruped gait controller initialized with 11 gait points")
 
+    def setup_direction_subscribers(self, direction):
+        """Setup subscribers based on direction"""
+        # First, unsubscribe from existing subscribers
+        for sub in self.subscribers.values():
+            self.destroy_subscription(sub)
+        self.subscribers.clear()
+        
+        # Create new subscribers based on direction
+        direction_topic = f'_joint_trajectory_{direction}'
+        self.subscribers['FL'] = self.create_subscription(
+            Float64MultiArray, 
+            f'FL{direction_topic}',
+            lambda msg: self.trajectory_callback(msg, 'FL'), 
+            10)
+        self.subscribers['FR'] = self.create_subscription(
+            Float64MultiArray, 
+            f'FR{direction_topic}',
+            lambda msg: self.trajectory_callback(msg, 'FR'), 
+            10)
+        self.subscribers['RL'] = self.create_subscription(
+            Float64MultiArray, 
+            f'RL{direction_topic}',
+            lambda msg: self.trajectory_callback(msg, 'RL'), 
+            10)
+        self.subscribers['RR'] = self.create_subscription(
+            Float64MultiArray, 
+            f'RR{direction_topic}',
+            lambda msg: self.trajectory_callback(msg, 'RR'), 
+            10)
+        
+        self.get_logger().info(f"Subscribed to {direction} trajectory topics")
+        
+        # Clear existing trajectories when changing direction
+        self.leg_trajectories = {
+            'FL': [], 'FR': [], 'RL': [], 'RR': []
+        }
+        self.trajectory_received = False
+        self.current_trajectory_index = 0
 
     def trajectory_callback(self, msg, leg):
         """Store received trajectory for a leg."""
         data = np.array(msg.data).reshape(-1, 3)  # Reshape to [N, 3]
         self.leg_trajectories[leg] = data.tolist()
-        # print(self.leg_trajectories[leg])
+        print(self.leg_trajectories[leg])
         
         if all(len(traj) > 0 for traj in self.leg_trajectories.values()):
             self.trajectory_received = True
@@ -129,20 +164,23 @@ class QuadrupedGaitController(Node):
             point = traj[self.current_trajectory_index % len(traj)]
             # print(point)
             self.target_positions[f"{leg}_hip_joint"] = point[0]
-            self.target_positions[f"{leg}_thigh_joint"] = point[1]
-            self.target_positions[f"{leg}_calf_joint"] = point[2]
+            self.target_positions[f"{leg}_thigh_joint"] = point[1] 
+            self.target_positions[f"{leg}_calf_joint"] = point[2] 
         
         self.current_gait_index += 1
         self.current_trajectory_index += 1
 
     
     def direction_callback(self, msg):
-        direction = msg.data.lower()
-        if direction in ["forward", "backward"]:
-            if self.direction != direction:
-                self.direction = direction
-                self.get_logger().info(f"Switching direction to {direction}")
-                # Reset gait index when changing direction
+        """Handle direction changes"""
+        new_direction = msg.data.lower()
+        if new_direction in ["forward", "backward"]:
+            if self.direction != new_direction:
+                self.direction = new_direction
+                self.get_logger().info(f"Switching direction to {new_direction}")
+                # Setup new subscribers for the new direction
+                self.setup_direction_subscribers(new_direction)
+                # Reset gait parameters
                 self.current_gait_index = 0
                 self.is_stable = False
                 self.stable_counter = 0
@@ -175,6 +213,54 @@ class QuadrupedGaitController(Node):
         # Publish state
         self.publish_joint_states()
         self.publish_tf()
+        
+        # Get IMU sensor data
+        # Get accelerometer data
+        accel_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SENSOR, "body_acc")
+        if accel_id != -1:
+            accel_data = self.data.sensordata[self.model.sensor_adr[accel_id]:self.model.sensor_adr[accel_id]+3]
+        
+        # Get gyroscope data
+        gyro_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SENSOR, "body_gyro")
+        if gyro_id != -1:
+            gyro_data = self.data.sensordata[self.model.sensor_adr[gyro_id]:self.model.sensor_adr[gyro_id]+3]
+        
+        # Get orientation quaternion
+        quat_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SENSOR, "body_quat")
+        if quat_id != -1:
+            quat_data = self.data.sensordata[self.model.sensor_adr[quat_id]:self.model.sensor_adr[quat_id]+4]
+        
+        # Create and publish IMU message
+        imu_msg = Imu()
+        imu_msg.header.stamp = self.get_clock().now().to_msg()
+        imu_msg.header.frame_id = "imu_link"
+        
+        # Set orientation
+        if 'quat_data' in locals():
+            imu_msg.orientation.w = quat_data[0]
+            imu_msg.orientation.x = quat_data[1]
+            imu_msg.orientation.y = quat_data[2]
+            imu_msg.orientation.z = quat_data[3]
+        
+        # Set angular velocity (gyroscope data)
+        if 'gyro_data' in locals():
+            imu_msg.angular_velocity.x = gyro_data[0]
+            imu_msg.angular_velocity.y = gyro_data[1]
+            imu_msg.angular_velocity.z = gyro_data[2]
+        
+        # Set linear acceleration (accelerometer data)
+        if 'accel_data' in locals():
+            imu_msg.linear_acceleration.x = accel_data[0]
+            imu_msg.linear_acceleration.y = accel_data[1]
+            imu_msg.linear_acceleration.z = accel_data[2]
+        
+        # Set covariance matrices (you can adjust these values based on your sensor's characteristics)
+        imu_msg.orientation_covariance = [0.0001, 0.0, 0.0, 0.0, 0.0001, 0.0, 0.0, 0.0, 0.0001]
+        imu_msg.angular_velocity_covariance = [0.0001, 0.0, 0.0, 0.0, 0.0001, 0.0, 0.0, 0.0, 0.0001]
+        imu_msg.linear_acceleration_covariance = [0.0001, 0.0, 0.0, 0.0, 0.0001, 0.0, 0.0, 0.0, 0.0001]
+        
+        # Publish IMU message
+        self.imu_pub.publish(imu_msg)
     
     def execute_gait(self):
         # If robot is stable at current point, consider moving to next point

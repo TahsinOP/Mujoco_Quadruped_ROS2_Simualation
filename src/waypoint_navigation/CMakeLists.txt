@@ -22,7 +22,9 @@ install(
 
 install(
   PROGRAMS
-    scripts/sub.py  # Replace with your actual script name(s)
+    scripts/waypoint_navigation.py
+    scripts/gait_test.py
+    scripts/trotting_gait.py  # Replace with your actual script name(s)
   DESTINATION lib/${PROJECT_NAME}
 )
 

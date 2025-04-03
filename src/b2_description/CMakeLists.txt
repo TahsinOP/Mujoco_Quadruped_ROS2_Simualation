@@ -24,7 +24,7 @@ install(
   PROGRAMS
     scripts/interactive_waypoint_publisher.py
     scripts/mujoco_simulation.py 
-    scripts/Gait_Mujoco.py # Replace with your actual script name(s)
+    scripts/mujoco_gait.py # Replace with your actual script name(s)
   DESTINATION lib/${PROJECT_NAME}
 )
 

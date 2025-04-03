@@ -38,6 +38,8 @@ ros2 launch b2_description robot_display.launch.py
 
 The model’s initial position is a crouched stance as shown below.
 
+image.png
+
 > ✅ The robot model loads correctly in RViz, showing joint frames and interactive visualization.
 
 ---

@@ -31,7 +31,7 @@ def generate_launch_description():
     rviz_config_path = PathJoinSubstitution([
         FindPackageShare('b2_description'),
         'rviz',
-        'mujoco_rviz_combined.rviz'
+        'waypoint_navigation.rviz'
     ])
 
 
@@ -41,9 +41,9 @@ def generate_launch_description():
 
         # Launch MuJoCo simulator node (uncomment when simulate.py is installed correctly)
         Node(
-            package='b2_description',
-            executable='mujoco_simulation.py',
-            name='mujoco_simulation',
+            package='waypoint_navigation',
+            executable='trotting_gait.py',
+            name='trotting_gait',
             output='screen'
         ),
 
