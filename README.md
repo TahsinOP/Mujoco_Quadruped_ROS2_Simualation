@@ -23,7 +23,7 @@ The project uses an **open-source quadruped robot model** (Unitree B2) to implem
 7. [Joint Trajectory Calculation and Visualization](#7-joint-trajectory-calculation-and-visualization)  
 8. [Trot Gait](#8-trot-gait)  
 9. [Waypoint Navigation](#9-waypoint-navigation)
-10. [Progress_Summary](#10-progress-summary) 
+10. [Progress Summary](#10-progress-summary) 
 
 ---
 
