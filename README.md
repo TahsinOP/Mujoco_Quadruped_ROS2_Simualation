@@ -204,22 +204,37 @@ The navigation process follows these interactive steps:
 
 ```
 📦 robot_dog_simulation
- ┣ 📂 b2_description
- ┃ ┣ 📜 CMakeLists.txt
- ┃ ┣ 📜 package.xml
- ┃ ┣ 📂 urdf
- ┃ ┃ ┣ 📜 b2.urdf.xacro
- ┃ ┣ 📂 launch
- ┃ ┃ ┣ 📜 robot_display_launch.py
- ┃ ┃ ┣ 📜 mujoco_rviz_combined_launch.py
- ┃ ┣ 📂 scripts
- ┃ ┃ ┣ 📜 interactive_waypoint_publisher.py
- ┣ 📂 mujoco_sim
- ┃ ┣ 📜 mujoco_viewer.py
- ┃ ┣ 📜 simulation.xml
- ┣ 📜 README.md
- ┗ 📜 .gitignore
-```
+ ┣ 📂 src
+ ┃ ┣ 📂 b2_description
+ ┃ ┃ ┣ 📂 config
+ ┃ ┃ ┣ 📂 launch
+ ┃ ┃ ┃ ┣ 📜 robot_display.launch.py
+ ┃ ┃ ┃ ┣ 📜 mujoco_launch.py
+ ┃ ┃ ┃ ┣ 📜 mujoco_trott_launch.py
+ ┃ ┃ ┃ ┗ 📜 mujoco_rviz_combined_launch.py
+ ┃ ┃ ┣ 📂 meshes
+ ┃ ┃ ┣ 📂 rviz
+ ┃ ┃ ┣ 📂 scripts
+ ┃ ┃ ┣ 📂 urdf
+ ┃ ┃ ┃ ┗ 📜 b2.urdf.xacro
+ ┃ ┃ ┣ 📂 xacro
+ ┃ ┃ ┣ 📂 xml
+ ┃ ┃ ┣ 📜 CMakeLists.txt
+ ┃ ┃ ┗ 📜 package.xml
+ ┃ ┣ 📂 waypoint_navigation
+ ┃ ┃ ┣ 📂 config
+ ┃ ┃ ┣ 📂 launch
+ ┃ ┃ ┣ 📂 scripts
+ ┃ ┃ ┃ ┣ 📜 ik_2D.py
+ ┃ ┃ ┃ ┣ 📜 ik_3D.py
+ ┃ ┃ ┃ ┣ 📜 kinematics.py
+ ┃ ┃ ┃ ┣ 📜 trotting_gait.py
+ ┃ ┃ ┃ ┗ 📜 waypoint_navigation.py
+ ┃ ┃ ┣ 📜 CMakeLists.txt
+ ┃ ┃ ┗ 📜 package.xml
+ ┣ 📂 .vscode
+ ┣ 📂 log
+ ┗ 📜 REA
 
 ## 🎥 Demonstration Video 
 
