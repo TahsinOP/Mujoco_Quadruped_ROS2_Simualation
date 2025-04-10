@@ -1,4 +1,4 @@
-# 🐾 Robot Dog Simulation using MuJoCo and ROS 2
+# 🐾MuJoco based Quadruped Robot Navigation System 
 
 ## Introduction
 
