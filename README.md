@@ -1,8 +1,8 @@
-# 🐾MuJoco based Quadruped Robot Navigation System 
+# 🐾MuJoco-ROS2 Quadruped Robot Navigation System 
 
 ## Introduction
 
-This task focuses on developing a simulated quadruped robot (robot dog) in the **MuJoCo** physics engine, integrated with **ROS 2 Humble** for visualization and waypoint navigation. The goal is to build a system capable of:
+This project focuses on developing a simulated quadruped robot (robot dog) in the **MuJoCo** physics engine, integrated with **ROS 2 Humble** for visualization and waypoint navigation. The goal is to build a system capable of:
 
 - Navigating from **point A to point B** using waypoints selected from **RViz**
 - Detecting obstacles in the environment
